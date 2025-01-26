@@ -28,7 +28,3 @@ Route::prefix('transactions')->group(function(){
     })->middleware('auth:sanctum');
 });
 
-
-Route::get('/get_account_balance', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
