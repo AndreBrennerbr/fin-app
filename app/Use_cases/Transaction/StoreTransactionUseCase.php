@@ -3,9 +3,9 @@
 namespace App\Use_cases\Transaction;
 
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
-use App\Repository\TransactionRepository;
 
-class UpdateTransactionUseCase{
+
+class StoreTransactionUseCase{
 
     private TransactionInterfaceRepository $repository;
 
@@ -14,7 +14,9 @@ class UpdateTransactionUseCase{
         $this->repository = $repository;
     }
 
-    public function execute(int $id ,array $data){
-        return $this->repository->update($id,$data);
+    public function execute(array $data){
+        //Do logica
+
+        return $this->repository->create($data);
     }
 }

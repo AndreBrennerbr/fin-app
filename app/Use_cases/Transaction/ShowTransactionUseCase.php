@@ -3,7 +3,7 @@
 namespace App\Use_cases\Transaction;
 
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
-use App\Repository\TransactionRepository;
+
 
 class ShowTransactionUseCase{
 
