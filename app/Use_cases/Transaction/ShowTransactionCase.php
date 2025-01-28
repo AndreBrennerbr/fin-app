@@ -5,7 +5,7 @@ namespace App\Use_cases\Transaction;
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
 use App\Repository\TransactionRepository;
 
-class StoreTransactionUseCase{
+class ShowTransactionUseCase{
 
     private TransactionInterfaceRepository $repository;
 
@@ -14,9 +14,7 @@ class StoreTransactionUseCase{
         $this->repository = $repository;
     }
 
-    public function execute(array $data){
-        //Do logica
-
-        return $this->repository->create($data);
+    public function execute(int $id){
+        return $this->repository->findById($id);
     }
 }
