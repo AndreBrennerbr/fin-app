@@ -14,9 +14,7 @@ Route::get('/login', function (Request $request) {
 
 Route::prefix('transactions')->group(function(){
     /* Get all transactions */
-    Route::get('/', function (Request $request) {
-        //
-    })->middleware('auth:sanctum');
+    Route::get('/',  [TransactionsController::class, 'index']);
 
     /* Get a especific transaction  */
     Route::get('/{id}', function (Request $request) {
