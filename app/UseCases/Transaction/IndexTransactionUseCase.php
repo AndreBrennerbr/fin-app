@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Use_cases\Transaction;
+namespace App\UseCases\Transaction;
 
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
 
 
-class ShowTransactionUseCase{
+class IndexTransactionUseCase{
 
     private TransactionInterfaceRepository $repository;
 
@@ -14,7 +14,7 @@ class ShowTransactionUseCase{
         $this->repository = $repository;
     }
 
-    public function execute(int $id){
-        return $this->repository->findById($id);
+    public function execute(){
+        return $this->repository->all();
     }
 }

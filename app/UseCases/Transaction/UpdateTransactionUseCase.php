@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Use_cases\Transaction;
+namespace App\UseCases\Transaction;
 
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
 
 
-class IndexTransactionUseCase{
+class UpdateTransactionUseCase{
 
     private TransactionInterfaceRepository $repository;
 
@@ -14,7 +14,7 @@ class IndexTransactionUseCase{
         $this->repository = $repository;
     }
 
-    public function execute(){
-        return $this->repository->all();
+    public function execute(int $id ,array $data){
+        return $this->repository->update($id,$data);
     }
 }

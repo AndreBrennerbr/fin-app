@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Use_cases\Transaction;
+namespace App\UseCases\Transaction;
 
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
 
