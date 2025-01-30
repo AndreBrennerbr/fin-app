@@ -28,3 +28,14 @@ Route::prefix('transactions')->group(function(){
 
 });
 
+Route::get("/types", function(){
+    $types = config('types');
+    return response()->json($types);
+});
+
+Route::get("/categories", function(){
+    $categories = config('categories');
+    $jsonResponse = json_encode($categories, JSON_UNESCAPED_UNICODE);
+    return response($jsonResponse, 200)->header('Content-Type', 'application/json; charset=UTF-8');         
+});
+
