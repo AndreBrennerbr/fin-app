@@ -2,24 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUser;
-use App\Use_cases\User\RegisterUseCase;
+use App\UseCases\User\UserUseCase;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
 
-    private RegisterUseCase $register; 
+    private UserUseCase $register; 
 
-    public function __construct(RegisterUseCase $register)
+    public function __construct(UserUseCase $register)
     {
         $this->register =  $register;
     }
+
+    public function login(LoginRequest $request)
+    {   try {
+            $validatedData = $request->validated();
+            return $this->register->login($validatedData);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+           ], 400);
+        }catch(\Exception $e){
+            return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
+        }
+        
+    }
+
+
+    public function logout(Request $request){
+        try {
+            return $this->register->logout($request);
+        }catch(\Exception $e){
+            return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
+        }
+    }
+
     
     public function register(RegisterUser $request)
-    {
-        $validatedData = $request->validated();
-        return $this->register->execute($validatedData);
+    {   
+        try{
+            $validatedData = $request->validated();
+            return $this->register->register($validatedData);
+        }catch(\Exception $e){
+            return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
+        }
     }
 
 }
