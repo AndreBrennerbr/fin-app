@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateTransaction extends FormRequest
 {
@@ -28,5 +30,15 @@ class UpdateTransaction extends FormRequest
             'description' => 'max:255',
             'date_created_transaction' => 'required'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Erro de validação',
+                'messages' => $validator->errors(),
+            ], 422)
+        );
     }
 }

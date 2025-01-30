@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreTransactionPost extends FormRequest
 {
@@ -30,4 +32,16 @@ class StoreTransactionPost extends FormRequest
             'date_created_transaction' => 'required'
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Erro de validação',
+                'messages' => $validator->errors(),
+            ], 422)
+        );
+    }
+   
+
 }
