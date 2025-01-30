@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionPost;
 use App\Http\Requests\UpdateTransaction;
-use App\Use_cases\Transaction\IndexTransactionUseCase;
-use App\Use_cases\Transaction\ShowTransactionUseCase;
-use App\Use_cases\Transaction\StoreTransactionUseCase;
-use App\Use_cases\Transaction\UpdateTransactionUseCase;
+use App\UseCases\Transaction\IndexTransactionUseCase;
+use App\UseCases\Transaction\TransactionUseCase;
+use App\UseCases\Transaction\ShowTransactionUseCase;
+use App\UseCases\Transaction\StoreTransactionUseCase;
+use App\UseCases\Transaction\UpdateTransactionUseCase;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
 {
     private IndexTransactionUseCase $index;
+    private TransactionUseCase $TransactionUseCase;
     private ShowTransactionUseCase $show;
     private StoreTransactionUseCase $store;
     private UpdateTransactionUseCase $update;
@@ -21,13 +23,15 @@ class TransactionsController extends Controller
         IndexTransactionUseCase $indexUseCase,
         ShowTransactionUseCase $showUseCase,
         StoreTransactionUseCase $storeUseCase,
-        UpdateTransactionUseCase $updateUseCase
+        UpdateTransactionUseCase $updateUseCase,
+        TransactionUseCase $TransactionUseCase
     )
     {
         $this->index = $indexUseCase;
         $this->show = $showUseCase;
         $this->store = $storeUseCase;
         $this->update = $updateUseCase;
+        $this->TransactionUseCase =  $TransactionUseCase;
     }
 
     /**
@@ -35,7 +39,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        return $this->index->execute();
+        return $this->TransactionUseCase->getAll();
     }
 
     /**
@@ -44,7 +48,7 @@ class TransactionsController extends Controller
     public function store(StoreTransactionPost $request)
     {
         $validatedData = $request->validated();
-        return $this->store->execute($validatedData);
+        return $this->TransactionUseCase->create($validatedData);
     }
 
     /**
@@ -52,7 +56,7 @@ class TransactionsController extends Controller
      */
     public function show(int $id)
     {
-        $this->show->execute($id);
+        $this->TransactionUseCase->getById($id);
     }
 
     
@@ -62,6 +66,6 @@ class TransactionsController extends Controller
     public function update(UpdateTransaction $request, int $id)
     {
         $validatedData = $request->validated();
-        return $this->update->execute($id,$validatedData);
+        return $this->TransactionUseCase->update($id,$validatedData);
     }
 }
