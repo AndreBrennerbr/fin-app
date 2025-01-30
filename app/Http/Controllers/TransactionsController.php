@@ -4,33 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionPost;
 use App\Http\Requests\UpdateTransaction;
-use App\UseCases\Transaction\IndexTransactionUseCase;
 use App\UseCases\Transaction\TransactionUseCase;
-use App\UseCases\Transaction\ShowTransactionUseCase;
-use App\UseCases\Transaction\StoreTransactionUseCase;
-use App\UseCases\Transaction\UpdateTransactionUseCase;
+
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
 {
-    private IndexTransactionUseCase $index;
     private TransactionUseCase $TransactionUseCase;
-    private ShowTransactionUseCase $show;
-    private StoreTransactionUseCase $store;
-    private UpdateTransactionUseCase $update;
-
-    public function __construct(
-        IndexTransactionUseCase $indexUseCase,
-        ShowTransactionUseCase $showUseCase,
-        StoreTransactionUseCase $storeUseCase,
-        UpdateTransactionUseCase $updateUseCase,
-        TransactionUseCase $TransactionUseCase
-    )
+    
+    public function __construct(TransactionUseCase $TransactionUseCase)
     {
-        $this->index = $indexUseCase;
-        $this->show = $showUseCase;
-        $this->store = $storeUseCase;
-        $this->update = $updateUseCase;
         $this->TransactionUseCase =  $TransactionUseCase;
     }
 
