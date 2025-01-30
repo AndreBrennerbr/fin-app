@@ -9,12 +9,9 @@ Route::get('/', function () {
    return json_encode(["status" => "online"]);
 });
 
-Route::get('/login', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-
-Route::post('/register', [UsersController::class,'register']);/* ->middleware('auth:sanctum') */
+Route::post('/login', [UsersController::class,'login']);
+Route::post('/register', [UsersController::class,'register']);
+Route::post('/logout', [UsersController::class,'logout'])->middleware('auth:sanctum');
 
 Route::prefix('transactions')->group(function(){
 
