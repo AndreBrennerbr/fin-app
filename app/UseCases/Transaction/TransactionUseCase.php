@@ -15,18 +15,34 @@ class TransactionUseCase{
     }
 
     public function getAll(){
-        return $this->repository->all();
+        try {
+            return $this->repository->all();
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function getById(int $id){
-        return $this->repository->findById($id);
+        try {
+            return $this->repository->findById($id);
+        } catch (\RuntimeException $e) {
+            throw $e;
+        }
     }
 
     public function create(array $data){
-        return $this->repository->create($data);
+        try {
+            return $this->repository->create($data);
+        } catch (\RuntimeException $e) {
+            throw $e;
+        }
     }
 
     public function update(int $id ,array $data){
-        return $this->repository->update($id,$data);
+        try {
+            return $this->repository->update($id,$data);
+        } catch (\RuntimeException $e) {
+            throw $e;
+        }
     }
 }

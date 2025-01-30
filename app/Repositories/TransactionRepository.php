@@ -8,26 +8,44 @@ class TransactionRepository implements TransactionInterfaceRepository{
 
     public function all(): array
     {
-        return Transaction::all()->toArray();
+        try {
+            return Transaction::all()->toArray();
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new \RuntimeException('Erro ao listar transações', 500);
+        }
+        
     }
 
     public function findById(int $id): ?Transaction
     {
-        return Transaction::find($id);
+        try {
+            return Transaction::find($id);
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new \RuntimeException('Erro ao listar a transação', 500);
+        }
+        
     }
 
     public function create(array $data): Transaction
     {
-        return Transaction::create($data);
+        try {
+            return Transaction::create($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new \RuntimeException('Erro ao criar transação', 500);
+        }
+      
     }
 
     public function update(int $id, array $data): bool
     {
-        $transaction = Transaction::find($id);
-        if (!$transaction) {
-            return false;
+        try {
+            $transaction = Transaction::find($id);
+            if (!$transaction) return false;
+            return $transaction->update($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            throw new \RuntimeException('Erro ao atualizar transação', 500);
         }
-        return $transaction->update($data);
+        
     }
 
 
