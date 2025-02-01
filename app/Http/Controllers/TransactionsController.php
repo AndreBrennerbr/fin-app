@@ -62,7 +62,7 @@ class TransactionsController extends Controller
     public function show(int $id)
     {
         try {
-            $this->TransactionUseCase->getById($id);
+           return $this->TransactionUseCase->getById($id);
         }catch (\RuntimeException $e) {
            return response()->json([
                 'message' => $e->getMessage()
