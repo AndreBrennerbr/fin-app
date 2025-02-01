@@ -33,7 +33,7 @@ class UserUseCase{
         $token = $user->createToken($data['email'].'Auth-Service')->plainTextToken; 
         
         return response()->json([
-            'usuario' => $user->only(['name', 'email']),
+            'usuario' => $user->only(['id','name', 'email']),
             'token' => $token,
             'token_type' => 'Bearer'
         ], 200);
