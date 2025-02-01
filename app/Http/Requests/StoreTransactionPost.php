@@ -24,7 +24,6 @@ class StoreTransactionPost extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
             'type' => 'required',
             'category' => 'required',
             'value' => 'required',
