@@ -23,7 +23,7 @@ Route::prefix('transactions')->group(function(){
 
     Route::put('/update/{id}', [TransactionsController::class, 'update']);
 
-    Route::post('/csv', [TransactionsController::class, 'csvUpload']);
+    Route::post('/excelUpload', [TransactionsController::class, 'excelUpload']);
 
 })->middleware('auth:sanctum');
 
