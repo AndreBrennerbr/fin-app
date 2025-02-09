@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionPost;
 use App\Http\Requests\UpdateTransaction;
+use App\Http\Requests\UploadFileRequest;
 use App\UseCases\Transaction\TransactionUseCase;
 
 use Illuminate\Http\Request;
@@ -89,9 +90,10 @@ class TransactionsController extends Controller
         }
     }
 
-    public function csvUpload(){
-
-
-        
+    public function excelUpload(UploadFileRequest $request){
+        $file = $request->file('file');
+        if($file){
+           
+        }
     }
 }
