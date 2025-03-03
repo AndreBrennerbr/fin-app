@@ -27,9 +27,20 @@ Route::prefix('transactions')->group(function(){
 
 })->middleware('auth:sanctum');
 
-Route::get("/types", function(){
+Route::get("/types_transactions", function(){
     $types = config('types');
     return response()->json($types);
+})->middleware('auth:sanctum');
+
+Route::get("/types_excel", function(){
+    $typesImportExcel = config('typesImportExcel');
+    $res = [];
+    foreach ($typesImportExcel as $key => $type) {
+        $exploded = explode('\\',$type);
+        $res[$key]=$exploded[2];
+    }
+    $jsonResponse = json_encode($res, JSON_UNESCAPED_UNICODE);
+    return response($jsonResponse, 200)->header('Content-Type', 'application/json; charset=UTF-8');
 })->middleware('auth:sanctum');
 
 Route::get("/categories", function(){
