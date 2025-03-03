@@ -6,6 +6,8 @@ use App\Http\Requests\StoreTransactionPost;
 use App\Http\Requests\UpdateTransaction;
 use App\Http\Requests\UploadFileRequest;
 use App\UseCases\Transaction\TransactionUseCase;
+use App\Factories\ImportFactory;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
@@ -92,8 +94,17 @@ class TransactionsController extends Controller
 
     public function excelUpload(UploadFileRequest $request){
         $file = $request->file('file');
-        if($file){
-           
+        $type = $request->input('type');
+        try {
+            $importMethod = ImportFactory::import($type);
+            Excel::import($importMethod, $file);
+            return response()->json([
+                'message' => 'Importado com sucesso!'
+           ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
+       
+        
     }
 }

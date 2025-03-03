@@ -25,6 +25,7 @@ class UploadFileRequest extends FormRequest
     {
         return [
             'file' => 'required|file|mimes:csv,xls,xlsx|max:5120', 
+            'type' => 'required', 
         ];
     }
 
