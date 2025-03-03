@@ -8,6 +8,8 @@ use App\Http\Requests\UploadFileRequest;
 use App\UseCases\Transaction\TransactionUseCase;
 use App\Factories\ImportFactory;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 
@@ -33,10 +35,12 @@ class TransactionsController extends Controller
                 'messages' => $e->errors()
             ],400);
         }catch (\RuntimeException $e) {
-           return response()->json([
-                'message' => $e->getMessage()
-           ], 500);
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
+            return response()->json([
+                    'message' => $e->getMessage()
+            ], 500);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
        
@@ -51,10 +55,12 @@ class TransactionsController extends Controller
             $validatedData = $request->validated();
             return $this->TransactionUseCase->create($validatedData);
         }catch (\RuntimeException $e) {
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
            return response()->json([
                 'message' => $e->getMessage()
            ], 500);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
     }
@@ -67,10 +73,12 @@ class TransactionsController extends Controller
         try {
            return $this->TransactionUseCase->getById($id);
         }catch (\RuntimeException $e) {
-           return response()->json([
-                'message' => $e->getMessage()
-           ], 500);
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
+            return response()->json([
+                    'message' => $e->getMessage()
+            ], 500);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
     }
@@ -84,10 +92,12 @@ class TransactionsController extends Controller
             $validatedData = $request->validated();
             return $this->TransactionUseCase->update($id,$validatedData);
         }catch (\RuntimeException $e) {
-           return response()->json([
-                'message' => $e->getMessage()
-           ], 500);
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());   
+            return response()->json([
+                    'message' => $e->getMessage()
+            ], 500);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
     }
@@ -102,6 +112,7 @@ class TransactionsController extends Controller
                 'message' => 'Importado com sucesso!'
            ], 200);
         } catch (\Exception $e) {
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
        

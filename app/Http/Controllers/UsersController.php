@@ -6,6 +6,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUser;
 use App\UseCases\User\UserUseCase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -26,6 +28,7 @@ class UsersController extends Controller
                 'message' => $e->getMessage()
            ], 400);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
         
@@ -36,6 +39,7 @@ class UsersController extends Controller
         try {
             return $this->register->logout($request);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
     }
@@ -47,6 +51,7 @@ class UsersController extends Controller
             $validatedData = $request->validated();
             return $this->register->register($validatedData);
         }catch(\Exception $e){
+            Log::error('Erro: '. $e->getMessage() . " User: " .  Auth::id());
             return response()->json(['erro' => 'Erro inesperado, entre em contato com o administrador'], 500);
         }
     }
