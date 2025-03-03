@@ -18,7 +18,7 @@ class TransactionImport implements ToModel
         return new Transaction([
             'type' => $row[0],
             'category' => $row[1],
-            'value'=> $row[2],
+            'value'=> (float) $row[2],
             'description' => $row[3],
             'date_created_transaction' => $row[4]
         ]);
