@@ -28,9 +28,7 @@ class TransactionsController extends Controller
     public function index(request $request)
     {   
         try {
-            $to = $request->query('to');
-            $from = $request->query('from');
-            $dateFilter = [$to,$from];
+            $dateFilter = [$request->query('to'),$request->query('from')];
             $params = $request->only(['category', 'type','value','description','date_created_transaction']);
             return $this->TransactionUseCase->getAll($params, $dateFilter);
         }catch(\Illuminate\Validation\ValidationException $e){
