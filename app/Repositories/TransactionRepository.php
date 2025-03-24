@@ -14,13 +14,20 @@ class TransactionRepository implements TransactionInterfaceRepository{
         $this->userId = Auth::id();
     }
     
-    public function all(null|array $params = null)
+    public function all(null|array $params = null,null|array $dateFilter = null)
     {  
         try {
             return Transaction::where('user_id', $this->userId)
                                 ->when($params,function ($query) use ($params) {
                                     foreach ($params as $key => $value) {
                                         $query->where($key, $value);
+                                    }
+                                })
+                                ->when($dateFilter,function ($query) use ($dateFilter) {
+                                    if($dateFilter[0] && $dateFilter[1]){
+                                        $to = $dateFilter[0];
+                                        $from =  $dateFilter[1];
+                                        $query->whereBetween('date_created_transaction',[$to, $from]);
                                     }
                                 })
                                 ->paginate(20);
