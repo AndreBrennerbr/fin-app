@@ -14,9 +14,9 @@ class TransactionUseCase{
         $this->repository = $repository;
     }
 
-    public function getAll(){
+    public function getAll(null|array $params = null){
         try {
-            return $this->repository->all();
+            return $this->repository->all($params);
         } catch (\Exception $e) {
             throw $e;
         }

@@ -25,10 +25,11 @@ class TransactionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(request $request)
     {   
         try {
-            return $this->TransactionUseCase->getAll();
+            $params = $request->only(['category', 'type','value','description','date_created_transaction']);
+            return $this->TransactionUseCase->getAll($params);
         }catch(\Illuminate\Validation\ValidationException $e){
             return response()->json([
                 'erro' => 'Dados inválidos',

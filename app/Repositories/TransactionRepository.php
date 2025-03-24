@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Models\Transaction;
 use App\Repositories\Interfaces\TransactionInterfaceRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 class TransactionRepository implements TransactionInterfaceRepository{
     
@@ -13,10 +14,16 @@ class TransactionRepository implements TransactionInterfaceRepository{
         $this->userId = Auth::id();
     }
     
-    public function all(): array
-    {
+    public function all(null|array $params = null)
+    {  
         try {
-            return Transaction::where('user_id', $this->userId)->get()->toArray();
+            return Transaction::where('user_id', $this->userId)
+                                ->when($params,function ($query) use ($params) {
+                                    foreach ($params as $key => $value) {
+                                        $query->where($key, $value);
+                                    }
+                                })
+                                ->paginate(20);
         } catch (\Illuminate\Database\QueryException $e) {
             throw new \RuntimeException('Erro ao listar transações', 500);
         }
