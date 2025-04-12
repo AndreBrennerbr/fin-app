@@ -17,7 +17,7 @@ class TransactionRepository implements TransactionInterfaceRepository{
     public function all(null|array $params = null,null|array $dateFilter = null)
     {  
         try {
-            return Transaction::where('user_id', $this->userId)
+                $query=Transaction::where('user_id', $this->userId)
                                 ->when($params,function ($query) use ($params) {
                                     foreach ($params as $key => $value) {
                                         $query->where($key, $value);
@@ -29,8 +29,20 @@ class TransactionRepository implements TransactionInterfaceRepository{
                                         $from =  $dateFilter[1];
                                         $query->whereBetween('date_created_transaction',[$to, $from]);
                                     }
-                                })
-                                ->paginate(20);
+                                });
+
+            $somaReceitas = (clone $query)->where('type', 'receita')->sum('value'); 
+            $somaDespesas = (clone $query)->where('type', 'despesa')->sum('value'); 
+            $transacoes = $query->paginate(20);
+           
+           
+            return [
+                'transactions' =>  $transacoes,
+                'total_receitas' => $somaReceitas,
+                'total_despesas' => $somaDespesas,
+                'total' => $somaDespesas - $somaReceitas
+            ];
+                                
         } catch (\Illuminate\Database\QueryException $e) {
             throw new \RuntimeException('Erro ao listar transações', 500);
         }
